@@ -34,4 +34,4 @@ dependencies {
     compile project(':autopatchbase')
 }
 
-apply from: '../gradle_mvn_push.gradle'
+//apply from: '../gradle_mvn_push.gradle'

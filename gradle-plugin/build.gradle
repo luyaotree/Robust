@@ -14,4 +14,4 @@ dependencies {
     compile 'org.ow2.asm:asm:5.0.1'
 }
 
-apply from: '../gradle_mvn_push.gradle'
+//apply from: '../gradle_mvn_push.gradle'

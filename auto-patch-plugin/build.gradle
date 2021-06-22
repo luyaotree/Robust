@@ -12,4 +12,4 @@ dependencies {
 //    compile 'com.meituan.robust:autopatchbase:' + VERSION_NAME
     compile project(':autopatchbase')
 }
-apply from: '../gradle_mvn_push.gradle'
+//apply from: '../gradle_mvn_push.gradle'
