@@ -49,11 +49,11 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
         ReadMapping.init();
         Config.init();
 
-        ROBUST_DIR = "${project.projectDir}${File.separator}robust${File.separator}"
-        def baksmaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[0]}"
-        def smaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[1]}"
-        def dxFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[2]}"
-        Config.robustGenerateDirectory = "${project.buildDir}" + File.separator + "$Constants.ROBUST_GENERATE_DIRECTORY" + File.separator;
+        ROBUST_DIR = "${project.projectDir}${File.separator}robust${File.separator}"  // app/robust
+        def baksmaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[0]}"   // app/robust/baksmali-2.1.2.jar
+        def smaliFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[1]}"      // app/robust/smali-2.1.2.jar
+        def dxFilePath = "${ROBUST_DIR}${Constants.LIB_NAME_ARRAY[2]}"         // app/robust/dx.jar
+        Config.robustGenerateDirectory = "${project.buildDir}" + File.separator + "$Constants.ROBUST_GENERATE_DIRECTORY" + File.separator; // build/outputs/robust/
         dex2SmaliCommand = "  java -jar ${baksmaliFilePath} -o classout" + File.separator + "  $Constants.CLASSES_DEX_NAME";
         smali2DexCommand = "   java -jar ${smaliFilePath} classout" + File.separator + " -o "+Constants.PATACH_DEX_NAME;
         jar2DexCommand = "   java -jar ${dxFilePath} --dex --output=$Constants.CLASSES_DEX_NAME  " + Constants.ZIP_FILE_NAME;
@@ -128,7 +128,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
 
     def autoPatch(List<CtClass> box) {
         File buildDir = project.getBuildDir();
-        String patchPath = buildDir.getAbsolutePath() + File.separator + Constants.ROBUST_GENERATE_DIRECTORY + File.separator;
+        String patchPath = buildDir.getAbsolutePath() + File.separator + Constants.ROBUST_GENERATE_DIRECTORY + File.separator; // app/build/outputs/robust
         clearPatchPath(patchPath);
         ReadAnnotation.readAnnotation(box, logger);
         if(Config.supportProGuard) {
@@ -177,7 +177,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
     }
 
     def  generatPatch(List<CtClass> box,String patchPath){
-        if (!Config.isManual) {
+        if (!Config.isManual) { //非手动
             if (Config.patchMethodSignatureSet.size() < 1) {
                 throw new RuntimeException(" patch method is empty ,please check your Modify annotation or use RobustModify.modify() to mark modified methods")
             }
@@ -196,7 +196,7 @@ class AutoPatchTransform extends Transform implements Plugin<Project> {
             if (Config.methodNeedPatchSet.size() > 0) {
                 throw new RuntimeException(" some methods haven't patched,see unpatched method list : " + Config.methodNeedPatchSet.toListString())
             }
-        } else {
+        } else { //手动
             autoPatchManually(box, patchPath);
         }
 

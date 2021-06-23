@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meituan.robust.PatchExecutor;
+import com.meituan.robust.patch.RobustModify;
+
 /**
  * For users of Robust you may only to use MainActivity or SecondActivity,other classes are used for test.<br>
  * <br>
@@ -54,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.jump_second_activity).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RobustModify.modify();
+                Toast.makeText(MainActivity.this, "热修复", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivity(intent);
             }
